@@ -31,7 +31,7 @@ for the certificate.
 
 ```
   nginx:
-    image: telent/simple-https-proxy:latest
+    image: telent/letsencruft:latest
     ports:
       - "80:80"
       - "443:443"
