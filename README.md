@@ -9,6 +9,9 @@ a
 without having to connect to it using plaintext; time will tell if it
 proves more generally useful.
 
+*This is alpha software and it may eat your keys*
+
+
 ## Features and points of note
 
 * based on Debian Testing (9.0 at the time of writing)
@@ -23,8 +26,8 @@ proves more generally useful.
 ## Quick example using Docker Compose
 
 Add a clause to `docker-compose.yml` that looks something like this.
-Both these environment variables are required when applying for the
-certificate.
+Both of the environment variables are required for use when applying
+for the certificate.
 
 ```
   nginx:
@@ -67,6 +70,11 @@ server {
 }
 ```
 
+Your vhost can assume it has SSL key and certificate (including any
+necessary intermediate certificates) in `/etc/ssl/%{DOMAIN}.{key,crt}`
+respectively.
+
+
 ### First time run
 
 You need to run `/sbin/request-cert` inside the container (or more
@@ -86,15 +94,16 @@ that Lets Encrypt makes.  At some point I will probably add an
 HTTP->HTTPS redirect rule so that at least your users will be
 redirected to the real site.
 
-* I haven't tested renewals yet, but it should be something like
+* I haven't needed to try renewals yet, but it should be something like
 `docker-compose run nginx certbot --renew`
 
 * Don't forget to back up your key and certificate somewhere safe.
 
 * These instructions assume basic prior knowledge of nginx, docker and
-  letsencrypt, but with that in mind, if they are unclear, please open
-  an issue and let me know what you had trouble with and what you
-  would like to see included.
+  letsencrypt, but with that in mind, if you find them unclear please
+  let me know.  Open a Github issue and let me know what you had
+  trouble with and what you would like to see included.
 
-* Find me on on Mastodon at @dan@toot.telent.net if I haven't broken
-it
+* Find me in the "Fediverse" (Mastodon/GNU Social/Ostatus/whatever we
+call it tomorrow)
+at [@dan@toot.telent.net](https://toot.telent.net/@dan) if I haven't broken it
