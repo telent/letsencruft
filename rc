@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if test -f /etc/letsencrypt/live/${DOMAIN}/fullchain.pem ;then
+  cp /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/ssl/${DOMAIN}.key
+  cp /etc/letsencrypt/live/${DOMAIN}/fullchain.pem /etc/ssl/${DOMAIN}.crt
+else
+  # placeholder cert so that nginx will still start even if images built
+  # on top of this one add https vhosts
+  cd /etc/ssl
+  openssl req -x509 -newkey rsa:4096 -keyout ${DOMAIN}.key -out ${DOMAIN}.crt -days 2 -nodes -subj '/CN=localhost'
+fi
+
+cd /etc/nginx/site-templates
+
+for i in *.conf.template ;do
+  perl -pe 's/%\{(.+)}/$ENV{$1}/ge' < $i > /etc/nginx/sites-enabled/`basename $i .template`
+done
+nginx -g 'daemon off;'

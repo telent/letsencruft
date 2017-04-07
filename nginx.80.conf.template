@@ -1,0 +1,12 @@
+server {
+  listen 80 default;
+  listen [::]:80 default;
+  server_name %{DOMAIN};
+
+  location ^~ /.well-known {
+    allow all;
+    alias /var/lib/letsencrypt/.well-known/;
+    default_type "text/plain";
+    try_files $uri =404;
+  }
+}
